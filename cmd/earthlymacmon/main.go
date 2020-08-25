@@ -88,7 +88,7 @@ func doChecVersion(version string) (string, bool) {
 		return output, false
 	}
 
-	return "", true
+	return output, true
 }
 
 func doTestRun(version string) (string, bool) {
