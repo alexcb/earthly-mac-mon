@@ -41,8 +41,8 @@ build:
     ARG GOCACHE=/go-cache
     RUN --mount=type=cache,target=$GOCACHE \
         go build \
-            -o build/earth \
+            -o build/earthly-mac-mon \
             cmd/earthlymacmon/*.go
     SAVE ARTIFACT ./build/tags
     SAVE ARTIFACT ./build/ldflags
-    SAVE ARTIFACT build/earth AS LOCAL "build/$GOOS/$GOARCH/earth"
+    SAVE ARTIFACT build/earthly-mac-mon AS LOCAL "build/$GOOS/$GOARCH/earthly-mac-mon"
