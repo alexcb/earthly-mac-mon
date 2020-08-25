@@ -63,6 +63,12 @@ func setLastRunVersion(version string) error {
 	return ioutil.WriteFile("/tmp/last-earth-check", []byte(version), 0644)
 }
 
+func doPreInstall(version string) (string, bool) {
+	cmd := exec.Command("sh", "-c", "echo running on `hostname -f`")
+	stdoutStderr, err := cmd.CombinedOutput()
+	return string(stdoutStderr), err == nil
+}
+
 func doInstall(version string) (string, bool) {
 	cmd := exec.Command("sh", "-c", "brew upgrade earthly")
 	stdoutStderr, err := cmd.CombinedOutput()
@@ -102,8 +108,9 @@ func doTest(alerter slack.Alerter, version string) {
 		title string
 		fun   func(string) (string, bool)
 	}{
+		{"pre-installation", doPreInstall},
 		{"installation", doInstall},
-		//{"check version", doChecVersion},
+		{"check version", doChecVersion},
 		{"test run", doTestRun},
 	} {
 		var output string
